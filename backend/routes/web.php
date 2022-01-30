@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FormController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// アンケート
+Route::get('/', [FormController::class, 'index'])->name('form.index');
+Route::post('/', [FormController::class, 'post'])->name('form.post');
+Route::get('/confirm', [FormController::class, 'confirm'])->name('form.confirm');
+Route::post('/confirm', [FormController::class, 'send'])->name('form.send');
+Route::get('/complete', [FormController::class, 'complete'])->name('form.complete');
