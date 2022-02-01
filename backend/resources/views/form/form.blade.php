@@ -2,7 +2,7 @@
 <div class="flex items-center mb-5">
     <label class="inline-block w-32 mr-8 text-left font-bold text-gray-600">氏名 <span
             class="text-red-400">※</span></label>
-    <input type="text" name="fullname" value="{{ old('name') }}" placeholder=" 入力してください"
+    <input type="text" name="fullname" value="{{ old('fullname') }}" placeholder=" 入力してください"
         class="flex-1 py-2 border-2 border-gray-200 text-gray-600 placeholder-gray-400 outline-none">
 </div>
 <div class="flex items-center mb-5">
