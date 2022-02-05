@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FormController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ShopController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +16,19 @@ use App\Http\Controllers\FormController;
 |
 */
 
+// お店
+Route::get('/', [ShopController::class, 'index'])->name('shop.index');
+
 // アンケート
-Route::get('/', [FormController::class, 'index'])->name('form.index');
-Route::post('/', [FormController::class, 'post'])->name('form.post');
+Route::get('/form', [FormController::class, 'index'])->name('form.index');
+Route::post('/form', [FormController::class, 'post'])->name('form.post');
 Route::get('/confirm', [FormController::class, 'confirm'])->name('form.confirm');
 Route::post('/confirm', [FormController::class, 'send'])->name('form.send');
 Route::get('/complete', [FormController::class, 'complete'])->name('form.complete');
+
+// 管理者画面
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+Route::get('/admin/show/{id}', [AdminController::class, 'show'])->name('admin.show');
+Route::delete('/admin/show/{id}', [AdminController::class, 'delete'])->name('admin.delete');
+
+

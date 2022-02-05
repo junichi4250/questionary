@@ -15,6 +15,7 @@ class CreateAnswersTable extends Migration
     {
         Schema::create('answers', function (Blueprint $table) {
             $table->id();
+            // $table->integer('shop_id');
             $table->string('fullname');
             $table->tinyInteger('gender');
             $table->integer('age_id');
@@ -23,6 +24,9 @@ class CreateAnswersTable extends Migration
             $table->string('feedback');
             $table->timestamps();
             // $table->timestamps('deleted_at');
+
+            // $table->foreign('shop_id')->references('id')->on('shops');
+            $table->foreign('age_id')->references('id')->on('ages');
         });
     }
 
