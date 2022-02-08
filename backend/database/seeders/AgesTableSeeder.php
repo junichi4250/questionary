@@ -15,12 +15,12 @@ class AgesTableSeeder extends Seeder
     public function run()
     {
         $ages = [
-            ['age' => '10代以下', 'sort' => 1],
-            ['age' => '20代', 'sort' => 2],
-            ['age' => '30代', 'sort' => 3],
-            ['age' => '40代', 'sort' => 4],
-            ['age' => '50代', 'sort' => 5],
-            ['age' => '60代以上', 'sort' => 6],
+            'age' => '10代以下',
+            'age' => '20代',
+            'age' => '30代',
+            'age' => '40代',
+            'age' => '50代',
+            'age' => '60代以上',
         ];
         DB::table('ages')->insert($ages);
     }

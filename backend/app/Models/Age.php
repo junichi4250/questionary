@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Age extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'age',
+    ];
 }

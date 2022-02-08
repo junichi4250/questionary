@@ -15,18 +15,17 @@ class CreateAnswersTable extends Migration
     {
         Schema::create('answers', function (Blueprint $table) {
             $table->id();
-            // $table->integer('shop_id');
-            $table->string('fullname');
+            $table->integer('shop_id');
+            $table->string('name');
             $table->tinyInteger('gender');
             $table->integer('age_id');
             $table->string('email');
             $table->tinyInteger('is_send_email');
             $table->string('feedback');
             $table->timestamps();
-            // $table->timestamps('deleted_at');
 
-            // $table->foreign('shop_id')->references('id')->on('shops');
-            $table->foreign('age_id')->references('id')->on('ages');
+            $table->foreign('shop_id')->references('shop_id')->on('shops');
+            $table->foreign('age_id')->references('age_id')->on('ages');
         });
     }
 

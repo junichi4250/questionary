@@ -14,9 +14,8 @@ class CreateAgesTable extends Migration
     public function up()
     {
         Schema::create('ages', function (Blueprint $table) {
-            $table->id();
+            $table->id('age_id');
             $table->string('age')->unique();
-            $table->tinyInteger('sort');
         });
     }
 
