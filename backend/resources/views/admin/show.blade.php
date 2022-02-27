@@ -63,7 +63,7 @@
                 <label class="inline-block w-32 mr-8 text-left 
                                      font-bold text-gray-600">メールマガジン送信可否</label>
                 <p class="flex-1 py-2 border-b-2 border-gray-400">
-                    @if($review['is_send_email'] == '0')
+                    @if($review['is_send_email'] == '1')
                     送信不可
                     @else
                     送信許可

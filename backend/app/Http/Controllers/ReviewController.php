@@ -23,7 +23,7 @@ class ReviewController extends Controller
 
     public function post(ReviewRequest $request) {
         $request->merge([
-            'is_send_email' => $request->boolean('is_send_email') ? 1 : 0,
+            'is_send_email' => $request->boolean('is_send_email') ? 0 : 1,
         ]);
 
         $input = $request->only($this->formItems);

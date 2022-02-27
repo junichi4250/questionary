@@ -20,8 +20,13 @@ class AdminController extends Controller
     }
 
     public function search(Request $request) {
+        // リセットボタンが押されたとき
+        if ($request->has("reset")) {
+            return redirect()->action([AdminController::class, 'index']);
+        }
+
         // リクエスト情報
-        $shop = $request->shop;
+        $shop_name = $request->shop_name;
         $age = $request->age;
         $gender = $request->gender;
         $created_start_date = $request->created_start_date;
@@ -29,15 +34,22 @@ class AdminController extends Controller
         $is_send_email = $request->is_send_email;
         $keyword = $request->keyword;
 
-        if(!empty($shop) | !empty($age) | !empty($gender) | !empty($created_start_date) | !empty($created_end_date) | !empty($is_send_email) | !empty($keyword)) {
-            // $reviews = review::shopE
+        if(!empty($shop_name) | !empty($age) | !empty($gender) | !empty($created_start_date) | !empty($created_end_date) | !empty($is_send_email) | !empty($keyword)) {
+            $reviews = Review::Join('shops', 'reviews.shop_id', '=', 'shops.shop_id')
+            ->Join('ages', 'reviews.age_id', '=', 'ages.age_id')
+            ->shopEqual($shop_name)
+            ->ageEqual($age)
+            ->genderEqual($gender)
+            ->createdStartDate($created_start_date)
+            ->createdEndDate($created_end_date)
+            ->isSendEmailEqual($is_send_email)
+            ->keywordEqual($keyword)
+            ->paginate(10);
         }
-        $reviews = Review::Join('ages', 'reviews.age_id', '=', 'ages.age_id')
-        ->select('*')
-        ->get();
         
         return view('admin.index', [
             'reviews' => $reviews,
+            'request' => $request,
         ]);
     }
 
