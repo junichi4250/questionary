@@ -9,6 +9,8 @@
         <p class="text-3xl text-center mb-8">アンケート管理システム</p>
 
         <form method="POST" action="{{ route('admin.delete', ['id' => $review->id]) }}">
+            @csrf
+            @method('delete')
             <div class="flex items-center mb-5">
                 <label for="name" class="inline-block w-32 mr-8 text-left font-bold text-gray-600">店名</label>
                 <p class="flex-1 py-2 border-b-2 border-gray-400">{{ $review['shop_name'] }}</p>
@@ -85,8 +87,9 @@
             </div>
 
             <div class="text-center mt-16">
-                <a href="{{ route('admin.index') }}" class="py-3 px-4 mr-8 bg-blue-400 text-white font-bold">一覧に戻る</a>
-                <a href="{{ route('admin.index') }}" class="py-3 px-8 bg-blue-400 text-white font-bold">削除</a>
+                <button name="back" class="py-3 px-4 mr-8 bg-blue-400 text-white font-bold">一覧に戻る</button>
+                <button onclick='return confirm("削除しますか？");'
+                    class="py-3 px-8 bg-blue-400 text-white font-bold">削除</button>
             </div>
         </form>
     </div>
