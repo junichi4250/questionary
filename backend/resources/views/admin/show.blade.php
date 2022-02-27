@@ -10,8 +10,8 @@
 
         <form method="POST" action="{{ route('admin.delete', ['id' => $review->id]) }}">
             <div class="flex items-center mb-5">
-                <label for="name" class="inline-block w-32 mr-8 text-left font-bold text-gray-600">ID</label>
-                <p class="flex-1 py-2 border-b-2 border-gray-400">{{ $review['name'] }}</p>
+                <label for="name" class="inline-block w-32 mr-8 text-left font-bold text-gray-600">店名</label>
+                <p class="flex-1 py-2 border-b-2 border-gray-400">{{ $review['shop_name'] }}</p>
             </div>
 
             <div class="flex items-center mb-5">

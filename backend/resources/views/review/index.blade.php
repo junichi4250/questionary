@@ -6,7 +6,7 @@
 
 <div class="bg-gray-100 py-32 px-10 min-h-screen">
     <div class="p-10 md:w-3/4 lg:w-1/2 mx-auto">
-        <p class="text-3xl text-center mb-8">{{ $shop->name }}へのご意見をお聞かせください</p>
+        <p class="text-3xl text-center mb-8">{{ $shop->shop_name }}へのご意見をお聞かせください</p>
         @include('review.error')
         <form method="POST" action={{ route('review.post', ['shop_id' => $shop->shop_id]) }}>
             @include('review.form')

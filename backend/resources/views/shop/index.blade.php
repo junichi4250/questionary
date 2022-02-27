@@ -11,8 +11,9 @@
             @foreach ($shops as $shop)
             <img src="image/shop_1.jpeg" class="w-2/5 mx-8">
             <div class="mx-auto">
-                <p class="">{{ $shop->name }}</p>
-                <a href="{{ route('review.index',  ['shop_id' => $shop->shop_id]) }}" class="mt-8 pt-2 px-2 bg-blue-200 border-2">レビューする</a>
+                <p class="">{{ $shop->shop_name }}</p>
+                <a href="{{ route('review.index',  ['shop_id' => $shop->shop_id]) }}"
+                    class="mt-8 pt-2 px-2 bg-blue-200 border-2">レビューする</a>
             </div>
             @endforeach
         </div>
