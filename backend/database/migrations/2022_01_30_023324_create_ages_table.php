@@ -15,7 +15,7 @@ class CreateAgesTable extends Migration
     {
         Schema::create('ages', function (Blueprint $table) {
             $table->id('age_id');
-            $table->string('age')->unique();
+            $table->string('age');
         });
     }
 
@@ -26,6 +26,7 @@ class CreateAgesTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('reviews');
         Schema::dropIfExists('ages');
     }
 }
