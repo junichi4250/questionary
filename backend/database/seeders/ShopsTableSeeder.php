@@ -15,9 +15,9 @@ class ShopsTableSeeder extends Seeder
     public function run()
     {
         $shops = [
-            ['name' => '和食'],
-            ['name' => '洋食'],
-            ['name' => '中華'],
+            ['shop_name' => '和食'],
+            ['shop_name' => '洋食'],
+            ['shop_name' => '中華'],
         ];
         DB::table('shops')->insert($shops);
     }
