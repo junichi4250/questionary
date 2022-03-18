@@ -15,10 +15,10 @@ class CreatereviewsTable extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->integer('shop_id');
+            $table->unsignedBigInteger('shop_id');
             $table->string('name');
             $table->tinyInteger('gender');
-            $table->integer('age_id');
+            $table->unsignedBigInteger('age_id');
             $table->string('email');
             $table->tinyInteger('is_send_email');
             $table->integer('score');
