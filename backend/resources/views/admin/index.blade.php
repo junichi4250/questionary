@@ -10,8 +10,7 @@
         @include('admin.logout')
         @include('admin.search')
         {{ $reviews->links() }}
-
-        <table class="table-auto text-left">
+        <table class="table-auto text-left mx-auto">
             <thead>
                 <tr class="border-b-2">
                     <th class="px-4 pr-32 py-2">店名</th>

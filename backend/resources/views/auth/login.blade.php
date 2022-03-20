@@ -6,11 +6,11 @@
 
 <div class="bg-gray-100 py-32 px-10 min-h-screen">
     <div class="p-10 md:w-3/4 lg:w-1/2 mx-auto">
-        <div class="text-2xl mb-8">{{ __('ログイン') }}</div>
+        <div class="text-2xl mb-8 text-center">{{ __('ログイン') }}</div>
 
         <form method="POST" action="{{ route('login') }}">
             @csrf
-            <div class="flex">
+            <div class="flex justify-center">
                 <label for="name" class="w-24 mr-8 mb-4">{{ __('ID') }}</label>
 
                 <div class="">
@@ -25,7 +25,7 @@
                 </div>
             </div>
 
-            <div class="flex">
+            <div class="flex justify-center">
                 <label for="password" class="w-24 mr-8 mb-8">{{ __(' PASSWORD') }}</label>
 
                 <div class="">
