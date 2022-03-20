@@ -11,8 +11,7 @@ class AdminController extends Controller
     public function index() {
         $reviews = Review::Join('ages', 'reviews.age_id', '=', 'ages.age_id')
         ->Join('shops', 'reviews.shop_id', '=', 'shops.shop_id')
-        ->select('*')
-        ->get();
+        ->paginate(10);
 
         return view('admin.index', [
             'reviews' => $reviews,
