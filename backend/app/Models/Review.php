@@ -18,6 +18,7 @@ class Review extends Model
         'is_send_email',
         'score',
         'feedback',
+        'photo_url',
     ];
 
     public function scopeShopEqual($query, $shop) {
@@ -31,7 +32,7 @@ class Review extends Model
         if ($age == 99) {
             return;
         }
-        return $query->where('age', $age);
+        return $query->where('reviews.age_id', $age);
     }
 
     public function scopeGenderEqual($query, $gender) {
@@ -44,18 +45,18 @@ class Review extends Model
 
     public function scopeCreatedStartDate($query, $start_date) {
         if ($start_date) {
-            return $query->where('created_date', '>=', $start_date);
+            return $query->where('created_at', '>=', $start_date);
         }
     }
 
     public function scopeCreatedEndDate($query, $end_date) {
         if ($end_date) {
-            return $query->where('created_date', '<=', $end_date);
+            return $query->where('created_at', '<=', $end_date);
         }
     }
 
     public function scopeIsSendEmailEqual($query, $is_send_email) {
-        if ($is_send_email) {
+        if ($is_send_email == 1) {
             return $query->where('is_send_email', $is_send_email);
         }
     }
