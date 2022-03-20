@@ -35,7 +35,7 @@ class ReviewRequest extends FormRequest
     public function attributes() {
         return [
             'name' => '氏名',
-            'age' => '年代',
+            'age_id' => '年代',
             'email' => 'メールアドレス',
             'score' => '評価',
         ];
