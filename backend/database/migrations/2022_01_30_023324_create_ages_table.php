@@ -26,7 +26,6 @@ class CreateAgesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reviews');
         Schema::dropIfExists('ages');
     }
 }
