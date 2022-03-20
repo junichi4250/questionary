@@ -9,8 +9,8 @@
         <p class="text-3xl text-center mb-8">レビュー管理システム</p>
         @include('admin.logout')
         @include('admin.search')
-        <span class="">全25件中　11~20件</span>
-        <span class="float-right">|1|2|3</span>
+        {{ $reviews->links() }}
+
         <table class="table-auto text-left">
             <thead>
                 <tr class="border-b-2">
@@ -47,3 +47,4 @@
         </table>
     </div>
 </div>
+@endsection
