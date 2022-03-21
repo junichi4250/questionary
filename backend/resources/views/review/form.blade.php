@@ -21,7 +21,7 @@
                    text-gray-600 placeholder-gray-400">
         <option value="">選択してください</option>
         @foreach($ages as $index => $age)
-        <option value="{{ $index }}">{{ $age->age }}</option>
+        <option value="{{ $index }}" @if($index===(int)old('age_id')) selected @endif>{{ $age->age }}</option>
         @endforeach
     </select>
 </div>
@@ -47,16 +47,21 @@
     <select name="score" class="flex-1 py-2 border-2 border-gray-200
                    text-gray-600 placeholder-gray-400">
         <option value="">選択してください</option>
-        <option value="1">1点</option>
-        <option value="2">2点</option>
-        <option value="3">3点</option>
-        <option value="4">4点</option>
-        <option value="5">5点</option>
+        <option value="1" @if(1===(int)old('score')) selected @endif>1点</option>
+        <option value="2" @if(2===(int)old('score')) selected @endif>2点</option>
+        <option value="3" @if(3===(int)old('score')) selected @endif>3点</option>
+        <option value="4" @if(4===(int)old('score')) selected @endif>4点</option>
+        <option value="5" @if(5===(int)old('score')) selected @endif>5点</option>
     </select>
 </div>
 
 <div class="flex mb-5">
     <label class="inline-block w-32 mr-8 text-left font-bold text-gray-600">ご意見</label>
-    <textarea rows="10" cols="60" name="feedback" value="{{ old('feedback') }}" placeholder=" 入力して下さい"
-        class="flex-1 py-2 border-2 border-gray-200"></textarea>
+    <textarea rows="10" cols="60" name="feedback" placeholder=" 入力して下さい"
+        class="flex-1 py-2 border-2 border-gray-200">{{ old('feedback') }}</textarea>
+</div>
+
+<div class="flex mb-5">
+    <label class="inline-block w-32 mr-8"></label>
+    <input type="file" id="image" name="image">
 </div>

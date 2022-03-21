@@ -7,10 +7,11 @@ use App\Models\Shop;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use App\Http\Requests\ReviewRequest;
+use Illuminate\Support\Facades\Storage;
 
 class ReviewController extends Controller
 {
-    private $formItems = ["shop_id", "name", "gender", "age_id", "email", "is_send_email", "score", "feedback"];
+    private $formItems = ["shop_id", "name", "gender", "age_id", "email", "is_send_email", "score", "feedback", "photo_url"];
 
     public function index(int $shop_id) {
         $ages = Age::all();
@@ -21,11 +22,22 @@ class ReviewController extends Controller
         ]);
     }
 
+    // 確認ボタンを押した時
     public function post(ReviewRequest $request) {
         $request->merge([
-            'is_send_email' => $request->boolean('is_send_email') ? 0 : 1,
+            'is_send_email' => $request->boolean('is_send_email') ? 1 : 0,
         ]);
 
+        $file = $request->image;
+        // ファイルを一時保存
+        if ($file) {
+            $fileUrl = Storage::disk('s3')->putFile('/tmp', $file);
+            $url = Storage::disk('s3')->url($fileUrl);
+            $photoUrl = str_replace('https://laravels2bucket.s3.ap-northeast-1.amazonaws.com/tmp/', '', $url);
+            $request->merge([
+                'photo_url' => $photoUrl,
+            ]);
+        }
         $input = $request->only($this->formItems);
 
         $request->session()->put("form_input", $input);
@@ -45,9 +57,10 @@ class ReviewController extends Controller
     }
 
     // レビュー送信
-    public function send(Request $request, review $review) {
+    public function send(Request $request, Review $review) {
         $input = $request->session()->get("form_input");
         $shop_id = $request->session()->get("form_input.shop_id");
+        $file = $request->session()->get("form_input.photo_url");
 
         // 戻るボタンが押されたとき
         if ($request->has("back")) {
@@ -62,6 +75,11 @@ class ReviewController extends Controller
 
         $review->fill($input);
         $review->save();
+
+        // 画像があれば保存
+        if ($file) {
+            Storage::disk('s3')->move('tmp/'.$file, 'uploads/'.$file);
+        }
 
         $request->session()->forget("form_input");
 

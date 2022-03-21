@@ -23,6 +23,7 @@ class CreatereviewsTable extends Migration
             $table->tinyInteger('is_send_email');
             $table->integer('score');
             $table->string('feedback')->nullable();
+            $table->string('photo_url')->nullable();
             $table->timestamps();
 
             $table->foreign('shop_id')->references('shop_id')->on('shops');

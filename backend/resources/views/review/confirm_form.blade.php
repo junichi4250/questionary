@@ -75,3 +75,9 @@
     <label class="inline-block w-32 mr-8 text-left font-bold text-gray-600">ご意見</label>
     <p class="flex-1 py-2 border-b-2 border-gray-400">{{ $input['feedback'] }}</p>
 </div>
+
+@if(isset($input["photo_url"]))
+<div class="flex mb-5">
+    <img src="{{ Storage::disk('s3')->url('uploads/'.$input["photo_url"]) }}">
+</div>
+@endif
