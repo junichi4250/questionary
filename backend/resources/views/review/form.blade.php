@@ -21,7 +21,7 @@
                    text-gray-600 placeholder-gray-400">
         <option value="">選択してください</option>
         @foreach($ages as $index => $age)
-        <option value="{{ $index }}" @if($index===(int)old('age_id')) selected @endif>{{ $age->age }}</option>
+        <option value="{{ $index + 1 }}" @if(($index + 1)===(int)old('age_id')) selected @endif>{{ $age->age }}</option>
         @endforeach
     </select>
 </div>
