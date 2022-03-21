@@ -2,19 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Review;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
     public function index() {
-        $reviews = Review::Join('ages', 'reviews.age_id', '=', 'ages.age_id')
-        ->Join('shops', 'reviews.shop_id', '=', 'shops.shop_id')
-        ->paginate(10);
+        $user = Auth::user();
+        // ログインユーザーの権限
+        if ($user->role == 1) {
+            $reviews = Review::Join('ages', 'reviews.age_id', '=', 'ages.age_id')
+            ->Join('shops', 'reviews.shop_id', '=', 'shops.shop_id')
+            ->paginate(10);
+        } else {
+            $reviews = Review::Join('ages', 'reviews.age_id', '=', 'ages.age_id')
+            ->Join('shops', 'reviews.shop_id', '=', 'shops.shop_id')
+            ->LeftJoin('users', 'shops.shop_id', '=', 'users.shop_id')
+            ->where('users.role', '=', $user->role)
+            ->paginate(10);
+        }
 
         return view('admin.index', [
             'reviews' => $reviews,
+            'user' => $user,
         ]);
     }
 

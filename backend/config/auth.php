@@ -65,6 +65,11 @@ return [
             'model' => App\Models\User::class,
         ],
 
+        'users' => [
+            'driver' => 'auth_ex',
+            'model' => App\Models\User::class,
+        ],
+
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',

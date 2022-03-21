@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Age;
+use App\Models\Shop;
+use App\Models\Review;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,7 +16,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        // Review::truncate();
+        // Age::truncate();
+        // Shop::truncate();
+
         $this->call([
             AgesTableSeeder::class,
             ShopsTableSeeder::class,

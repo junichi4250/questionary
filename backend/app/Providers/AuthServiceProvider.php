@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -13,7 +14,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        'App\Models\Model' => 'App\Policies\ModelPolicy',
     ];
 
     /**
@@ -27,4 +28,12 @@ class AuthServiceProvider extends ServiceProvider
 
         //
     }
+
+    public function register()
+    {
+		Auth::provider('auth_ex', function($app) {
+			$model = $app['config']['auth.providers.users.model'];
+			return new AuthUserProvider($app['hash'], $model);
+		});
+	}
 }

@@ -5,8 +5,13 @@
             <div class="grid grid-cols-3 gap-4">
                 <div>
                     <label class="mr-20">店名</label>
+                    @if ($user->role == 1)
                     <input type="text" class="p-4 border border-gray-200" placeholder="入力してください" name="shop_name"
                         value="{{ $request->shop_name ?? '' }}">
+                    @else
+                    <input type="text" class="p-4 border border-gray-200 text-gray-400 pointer-events-none"
+                        name="shop_name" value="{{ $user->shop_name }}">
+                    @endif
                 </div>
                 <div>
                     <label class="mr-8">年代</label>
