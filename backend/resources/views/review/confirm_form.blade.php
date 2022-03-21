@@ -78,6 +78,6 @@
 
 @if(isset($input["photo_url"]))
 <div class="flex mb-5">
-    <img src="{{ Storage::disk('s3')->url('uploads/'.$input["photo_url"]) }}">
+    <img src="{{ Storage::disk('s3')->url('tmp/'.$input["photo_url"]) }}">
 </div>
 @endif
