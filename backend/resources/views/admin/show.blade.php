@@ -4,26 +4,24 @@
 
 @section('content')
 
-<div class="bg-gray-200 py-32 px-10 min-h-screen ">
-    <div class="p-10 md:w-3/4 lg:w-1/2 mx-auto">
-        <p class="text-3xl text-center mb-8">アンケート管理システム</p>
-
-        <form method="POST" action="{{ route('admin.delete', ['id' => $review->id]) }}">
+<div class="w-2/3 mx-auto">
+    <div class="mx-auto mt-12 mb-12 border-2 px-12 py-16 rounded-2xl shadow-lg">
+        {{-- <p class="mb-10 text-2xl text-center">アンケート管理システム</p> --}}
+        <form method="POST" action="{{ route('admin.delete', ['id' => $review->id]) }}" class="w-1/2 mx-auto">
             @csrf
             @method('delete')
-            <div class="flex items-center mb-5">
-                <label for="name" class="inline-block w-32 mr-8 text-left font-bold text-gray-600">店名</label>
-                <p class="flex-1 py-2 border-b-2 border-gray-400">{{ $review['shop_name'] }}</p>
+            <div class="mb-8">
+                <label for="name" class="flex justify-start my-2">店名</label>
+                <p class="flex-1 py-2">{{ $review['shop_name'] }}</p>
             </div>
 
-            <div class="flex items-center mb-5">
-                <label for="name" class="inline-block w-32 mr-8 text-left font-bold text-gray-600">氏名</label>
-                <p class="flex-1 py-2 border-b-2 border-gray-400">{{ $review['name'] }}</p>
+            <div class="mb-8">
+                <label for="name" class="flex justify-start my-2">氏名</label>
+                <p class="flex-1 py-2">{{ $review['name'] }}</p>
             </div>
-            <div class="flex items-center mb-5">
-                <label for="number" class="inline-block w-32 mr-8 text-left 
-                                     font-bold text-gray-600">性別</label>
-                <p class="flex-1 py-2 border-b-2 border-gray-400">
+            <div class="mb-8">
+                <label for="number" class="flex justify-start my-2">性別</label>
+                <p class="flex-1 py-2">
                     @if($review['gender'] == '0')
                     男性
                     @elseif($review['gender'] == '1')
@@ -32,10 +30,9 @@
                 </p>
             </div>
 
-            <div class="flex items-center mb-5">
-                <label class="inline-block w-32 mr-8 text-left 
-                                  font-bold text-gray-600">年代</label>
-                <p class="flex-1 py-2 border-b-2 border-gray-400">
+            <div class="mb-8">
+                <label class="flex justify-start my-2">年代</label>
+                <p class="flex-1 py-2">
                     @if($review['age_id'] == '0')
                     10代以下
                     @elseif($review['age_id'] == '1')
@@ -53,16 +50,14 @@
 
             </div>
 
-            <div class="flex items-center mb-5">
-                <label class="inline-block w-32 mr-8 text-left 
-                                     font-bold text-gray-600">メールアドレス</label>
-                <p class="flex-1 py-2 border-b-2 border-gray-400">{{ $review['email'] }}</p>
+            <div class="mb-8">
+                <label class="flex justify-start my-2">メールアドレス</label>
+                <p class="flex-1 py-2">{{ $review['email'] }}</p>
             </div>
 
-            <div class="flex items-center mb-5">
-                <label class="inline-block w-32 mr-8 text-left 
-                                     font-bold text-gray-600">メールマガジン送信可否</label>
-                <p class="flex-1 py-2 border-b-2 border-gray-400">
+            <div class="mb-8">
+                <label class="flex justify-start my-2">メールマガジン送信可否</label>
+                <p class="flex-1 py-2">
                     @if($review['is_send_email'] == '1')
                     送信不可
                     @else
@@ -71,32 +66,32 @@
                 </p>
             </div>
 
-            <div class="flex mb-5">
-                <label class="inline-block w-32 mr-8 text-left font-bold text-gray-600">評価</label>
-                <p class="flex-1 py-2 border-b-2 border-gray-400">{{ $review['score'] }}点</p>
+            <div class="mb-8">
+                <label class="flex justify-start my-2">評価</label>
+                <p class="flex-1 py-2">{{ $review['score'] }}点</p>
             </div>
 
-            <div class="flex mb-5">
-                <label class="inline-block w-32 mr-8 text-left font-bold text-gray-600">ご意見</label>
-                <p class="flex-1 py-2 border-b-2 border-gray-400">{{ $review['feedback'] }}</p>
+            <div class="mb-8">
+                <label class="flex justify-start my-2">ご意見</label>
+                <p class="flex-1 py-2">{{ $review['feedback'] }}</p>
             </div>
 
             @if(isset($review['photo_url']))
-            <div class="flex mb-5">
+            <div class="mb-8">
                 <label class="inline-block w-32 mr-8"></label>
                 <img src="{{ Storage::disk('s3')->url('uploads/'.$review["photo_url"]) }}">
             </div>
             @endif
 
-            <div class=" flex mb-5">
-                <label class="inline-block w-32 mr-8 text-left font-bold text-gray-600">登録日時</label>
-                <p class="flex-1 py-2 border-b-2 border-gray-400">{{ $review['created_at'] }}</p>
+            <div class="mb-8">
+                <label class="flex justify-start my-2">登録日時</label>
+                <p class="flex-1 py-2">{{ $review['created_at'] }}</p>
             </div>
 
             <div class="text-center mt-16">
-                <button name="back" class="py-3 px-4 mr-8 bg-blue-400 text-white font-bold">一覧に戻る</button>
+                <button name="back" class="py-3 px-4 mr-8 font-bold">一覧に戻る</button>
                 <button onclick='return confirm("削除しますか？");'
-                    class="py-3 px-8 bg-blue-400 text-white font-bold">削除</button>
+                    class="py-3 px-10 bg-red-400 text-white font-bold rounded-full">削除</button>
             </div>
         </form>
     </div>

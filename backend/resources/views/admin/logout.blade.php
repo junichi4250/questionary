@@ -1,6 +1,6 @@
-<form action="{{ route('logout') }}" method="post" class="text-right mr-32">
+<form action="{{ route('logout') }}" method="post" class="">
     @csrf
-    <button type="submit" value="ログアウト" class="text-blue-500">
+    <button type="submit" value="ログアウト" class="flex mr-3 ml-5 text-sm rounded-full md:mr-0">
         {{ __('ログアウト') }}
     </button>
 </form>
