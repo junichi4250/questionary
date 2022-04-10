@@ -4,12 +4,12 @@
 
 @section('content')
 
-<div class="bg-gray-200 py-32 px-10 min-h-screen">
-    <div class="p-10 md:w-3/4 lg:w-1/2 mx-auto">
-        <p class="text-3xl text-center mb-8">ご意見をお送りいただきありがとうございました</p>
+<div class="w-2/3 mx-auto">
+    <div class="mx-auto mt-12 border-2 px-12 py-16 rounded-2xl shadow-lg">
+        <p class="mb-10 text-2xl text-center">ご意見をお送りいただきありがとうございました</p>
         <div class="text-center">
             <button onclick="location.href='{{ route('shop.index') }}'"
-                class=" py-3 px-8 bg-blue-400 text-white font-bold">お店一覧へ戻る</button>
+                class="py-3 px-8 bg-blue-400 text-white font-bold rounded-full">お店一覧へ戻る</button>
         </div>
     </div>
 </div>

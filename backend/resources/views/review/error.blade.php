@@ -1,5 +1,5 @@
 @if($errors->any())
-<div class="bg-white border-2 border-gray-200 text-red-600 p-4 mb-4">
+<div class="bg-white border border-gray-200 text-red-600 p-4 mb-4 rounded-md">
     <p class="">{{ $errors->first('name') }}</p>
     <p class="">{{ $errors->first('age_id') }}</p>
     <p class="">{{ $errors->first('email') }}</p>
