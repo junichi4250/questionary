@@ -2,6 +2,8 @@
 
 @section('title', 'アンケート')
 
+@include('nav')
+
 @section('content')
 
 <div class="w-2/3 mx-auto">
