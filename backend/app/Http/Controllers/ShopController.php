@@ -13,4 +13,11 @@ class ShopController extends Controller
             'shops' => $shops
         ]);
     }
+
+    public function show(int $id) {
+        $shop = Shop::where('shop_id', $id)->first();
+        return view('shop.show', [
+            'shop' => $shop
+        ]);
+    }
 }

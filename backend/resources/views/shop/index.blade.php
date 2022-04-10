@@ -16,7 +16,7 @@
                 <p class="text-2xl mb-10">{{ $shop->shop_name }}</p>
                 <p class="mb-10">評価：★★★☆☆（3.0点）</p>
                 <p class="mb-10">テキストテキストテキストテキストテキストテキストテキスト</p>
-                <a href="{{ route('review.index',  ['shop_id' => $shop->shop_id]) }}"
+                <a href="{{ route('shop.show',  ['shop_id' => $shop->shop_id]) }}"
                     class="py-3 px-8 mr-8 bg-green-400 text-white font-bold rounded-full">詳細</a>
                 <a href="{{ route('review.index',  ['shop_id' => $shop->shop_id]) }}"
                     class="py-3 px-8 bg-blue-400 text-white font-bold rounded-full">レビューする</a>

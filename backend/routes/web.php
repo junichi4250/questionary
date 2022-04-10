@@ -9,6 +9,7 @@ Auth::routes();
 
 // お店
 Route::get('/', [ShopController::class, 'index'])->name('shop.index');
+Route::get('/show/{shop_id}', [ShopController::class, 'show'])->name('shop.show');
 
 // アンケート
 Route::get('/review/{shop_id}', [ReviewController::class, 'index'])->name('review.index');
