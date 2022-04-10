@@ -4,49 +4,16 @@
 
 @section('content')
 
-<div class="bg-gray-100 py-32 px-10 min-h-screen">
-    <div class="p-10 md:w-3/4 lg:w-1/2 mx-auto">
-        <div class="text-2xl mb-8 text-center">{{ __('ログイン') }}</div>
-
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-            <div class="flex justify-center">
-                <label for="name" class="w-24 mr-8 mb-4">{{ __('ID') }}</label>
-
-                <div class="">
-                    <input id="name" type="text" class="@error('name') is-invalid @enderror" name="name"
-                        value="{{ old('name') }}" required autocomplete="name" autofocus>
-
-                    @error('name')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                </div>
-            </div>
-
-            <div class="flex justify-center">
-                <label for="password" class="w-24 mr-8 mb-8">{{ __(' PASSWORD') }}</label>
-
-                <div class="">
-                    <input id="password" type="password" class="@error('password') is-invalid @enderror" name="password"
-                        required autocomplete="current-password">
-
-                    @error('password')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                </div>
-            </div>
-
-
+<div class="w-2/3 mx-auto">
+    <div class="mx-auto mt-12 mb-12 border-2 px-12 py-16 rounded-2xl shadow-lg">
+        <div class="mb-10 text-2xl text-center">{{ __('管理者ログイン') }}</div>
+        <form method="POST" action="{{ route('login') }}" class="w-1/2 mx-auto">
+            @include('auth.form')
             <div class="text-center">
-                <button type="submit" class="p-2 border-2 border-gray-400 bg-blue-200">
+                <button type="submit" class="mt-5 py-3 px-10 bg-blue-400 text-white font-bold rounded-full">
                     {{ __('ログイン') }}
                 </button>
             </div>
-
         </form>
     </div>
 </div>
