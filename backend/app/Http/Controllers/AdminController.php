@@ -57,10 +57,13 @@ class AdminController extends Controller
             ->keywordEqual($keyword)
             ->paginate(10);
         }
+
+        $user = Auth::user();
         
         return view('admin.index', [
             'reviews' => $reviews,
             'request' => $request,
+            'user' => $user,
         ]);
     }
 
