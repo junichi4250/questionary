@@ -13,7 +13,7 @@
             @include('admin.search')
         </div>
         <div class="mx-auto mt-12 mb-12 border-2 px-12 py-16 rounded-2xl shadow-lg">
-            {{ $reviews->links() }}
+            {{ $reviews->links('pagination::simple-tailwind') }}
             @if($reviews->isEmpty())
             <span class="mb-6 text-center">検索に合致するレビューがありませんでした</span>
             @else
@@ -47,6 +47,7 @@
             </table>
             @endif
         </div>
+        {{ $reviews->links() }}
     </div>
 </div>
 @endsection
