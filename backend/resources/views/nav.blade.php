@@ -1,6 +1,6 @@
 <nav class="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-800 shadow-lg sticky top-0 z-50">
     <div class="container flex flex-wrap justify-between items-center mx-auto">
-        <a href="http://localhost:8000" class="flex items-center">
+        <a href="/" class="flex items-center">
             <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">ShopReview</span>
         </a>
         <div class="flex items-center md:order-2">
@@ -11,7 +11,7 @@
                 <span class="sr-only">Open user menu</span>
                 <img class="w-8 h-8 rounded-full" src="/image/user.png" alt="user photo">
             </button>
-            <a href="http://localhost:8000/admin" class="flex mr-3 ml-5 text-sm rounded-full md:mr-0">管理画面へ
+            <a href="/admin" class="flex mr-3 ml-5 text-sm rounded-full md:mr-0">管理画面へ
             </a>
 
             <div class="hidden z-50 my-4 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
