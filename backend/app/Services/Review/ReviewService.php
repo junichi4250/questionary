@@ -4,6 +4,7 @@ namespace App\Services\Review;
 
 use App\Http\Requests\ReviewRequest;
 use App\Models\Review;
+use Illuminate\Http\Request;
 use App\Repositories\Review\ReviewRepositoryInterface;
 use App\Services\Review\ReviewServiceInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -16,16 +17,6 @@ class ReviewService implements ReviewServiceInterface
         ReviewRepositoryInterface $reviewRepository
     ) {
         $this->reviewRepository = $reviewRepository;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function create(Review $reviewRecord): Review
-    {
-        $review = $this->reviewRepository->create($reviewRecord);
-
-        return $review;
     }
 
     /**
@@ -56,6 +47,24 @@ class ReviewService implements ReviewServiceInterface
         $review = $this->reviewRepository->getReview($id);
 
         return $review;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function searchReviews(Request $input): LengthAwarePaginator
+    {
+        $reviews = $this->reviewRepository->searchReviews($input);
+
+        return $reviews;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function create(Review $review, array $input): Void
+    {
+        $review = $this->reviewRepository->create($review, $input);
     }
 
     /**

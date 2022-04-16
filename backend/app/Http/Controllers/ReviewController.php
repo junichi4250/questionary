@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Services\Review\ReviewService;
 use App\Services\Age\AgeService;
 use App\Services\Shop\ShopService;
+use App\Consts\Consts;
 
 class ReviewController extends Controller
 {
@@ -18,7 +19,17 @@ class ReviewController extends Controller
     private AgeService $ageService;
     private ShopService $shopService;
 
-    private $formItems = ["shop_id", "name", "gender", "age_id", "email", "is_send_email", "score", "feedback", "photo_url"];
+    private $formItems = [
+        "shop_id",
+        "name",
+        "gender",
+        "age_id",
+        "email",
+        "is_send_email",
+        "score",
+        "feedback",
+        "photo_url"
+    ];
 
     public function __construct(
         ReviewService $reviewService,
@@ -51,15 +62,12 @@ class ReviewController extends Controller
         $file = $request->image;
         // ファイルを一時保存
         if ($file) {
-            $fileUrl = Storage::disk('s3')->putFile('/tmp', $file);
-            $url = Storage::disk('s3')->url($fileUrl);
-            $photoUrl = str_replace('https://laravels2bucket.s3.ap-northeast-1.amazonaws.com/tmp/', '', $url);
-            $request->merge([
-                'photo_url' => $photoUrl,
-            ]);
+            $this->storeTmpPhoto($file, $request);
         }
+
         $input = $request->only($this->formItems);
 
+        // sessionへ入力情報を保存
         $request->session()->put("form_input", $input);
 
         return redirect()->action([ReviewController::class, 'confirm']);
@@ -68,11 +76,7 @@ class ReviewController extends Controller
     public function confirm(Request $request)
     {
         $input = $request->session()->get("form_input");
-
-        // sessionが空ならお店一覧を表示
-        if (!$input) {
-            return redirect()->action([ShopController::class, 'index']);
-        }
+        $this->checkSessionEmpty($input);
 
         return view("review.confirm", ["input" => $input]);
     }
@@ -81,28 +85,16 @@ class ReviewController extends Controller
     public function send(Request $request, Review $review)
     {
         $input = $request->session()->get("form_input");
-        $shop_id = $request->session()->get("form_input.shop_id");
+        $this->checkEnableSendReview($input, $request);
+
+        // レビュー保存
+        $this->reviewService->create($review, $input);
+
+        // 写真があれば保存
         $file = $request->session()->get("form_input.photo_url");
+        $this->storePhoto($file);
 
-        // 戻るボタンが押されたとき
-        if ($request->has("back")) {
-            return redirect()->action([ReviewController::class, 'index'], ['shop_id' => $shop_id])
-                ->withInput($input);
-        }
-
-        // sessionが空ならお店一覧を表示
-        if (!$input) {
-            return redirect()->action([ShopController::class, 'index']);
-        }
-
-        $review->fill($input);
-        $review->save();
-
-        // 画像があれば保存
-        if ($file) {
-            Storage::disk('s3')->move('tmp/'.$file, 'uploads/'.$file);
-        }
-
+        // sessionを空にする
         $request->session()->forget("form_input");
 
         return redirect()->action([ReviewController::class, 'complete']);
@@ -112,5 +104,44 @@ class ReviewController extends Controller
     public function complete()
     {
         return view("review.complete");
+    }
+
+    private function checkEnableSendReview(array $input, Request $request)
+    {
+        $this->checkSessionEmpty($input);
+
+        $shop_id = $request->session()->get("form_input.shop_id");
+
+        // 戻るボタンが押されたとき
+        if ($request->has("back")) {
+            return redirect()->action([ReviewController::class, 'index'], ['shop_id' => $shop_id])
+                ->withInput($input);
+        }
+    }
+
+    private function checkSessionEmpty(array $input)
+    {
+        // sessionが空ならお店一覧を表示
+        if (!$input) {
+            return redirect()->action([ShopController::class, 'index']);
+        }
+    }
+
+    private function storeTmpPhoto(string $file, ReviewRequest $request)
+    {
+        $fileUrl = Storage::disk('s3')->putFile('/tmp', $file);
+        $url = Storage::disk('s3')->url($fileUrl);
+        $photoUrl = str_replace(Consts::S3_URL, '', $url);
+
+        $request->merge([
+            'photo_url' => $photoUrl,
+        ]);
+    }
+
+    private function storePhoto(string $file)
+    {
+        if ($file) {
+            Storage::disk('s3')->move('tmp/'.$file, 'uploads/'.$file);
+        }
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Repositories\Review;
 
 use App\Models\Review;
+use Illuminate\Http\Request;
 use App\Repositories\Review\ReviewRepositoryInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -13,16 +14,6 @@ class ReviewRepository implements ReviewRepositoryInterface
     public function __construct(Review $review)
     {
         $this->review = $review;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function create(Review $reviewRecord): Review
-    {
-        $review = $this->review
-            ->save($reviewRecord);
-        return $review;
     }
 
     /**
@@ -60,6 +51,34 @@ class ReviewRepository implements ReviewRepositoryInterface
             ->where('id', $review_id)->first();
 
         return $review;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function searchReviews(Request $input): LengthAwarePaginator
+    {
+        $reviews = Review::Join('shops', 'reviews.shop_id', '=', 'shops.shop_id')
+            ->Join('ages', 'reviews.age_id', '=', 'ages.age_id')
+            ->shopEqual($input->shop_name)
+            ->ageEqual($input->age)
+            ->genderEqual($input->gender)
+            ->createdStartDate($input->created_start_date)
+            ->createdEndDate($input->created_end_date)
+            ->isSendEmailEqual($input->is_send_email)
+            ->keywordEqual($input->keyword)
+            ->paginate(10);
+
+        return $reviews;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function create(Review $review, array $input): Void
+    {
+        $review->fill($input);
+        $review->save();
     }
 
     /**

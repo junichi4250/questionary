@@ -3,19 +3,12 @@
 namespace App\Repositories\Review;
 
 use App\Models\Review;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface ReviewRepositoryInterface
 {
-    /**
-     * ユーザーの新規投稿と、投稿のタグをDBに保存
-     *
-     * @param array $review
-     * @return void
-     */
-    public function create(Review $reviewRecord): Review;
-
     /**
      * 全てのレビュー情報を取得
      *
@@ -37,6 +30,22 @@ interface ReviewRepositoryInterface
      * @return Review
      */
     public function getReview(int $id): Review;
+
+    /**
+     * レビュー情報を検索
+     *
+     * @param array $input
+     * @return LengthAwarePaginator
+     */
+    public function searchReviews(Request $input): LengthAwarePaginator;
+
+    /**
+     * ユーザーの新規投稿と、投稿のタグをDBに保存
+     *
+     * @param array $input
+     * @return void
+     */
+    public function create(Review $review, array $input): Void;
 
     /**
      * レビュー情報の削除
