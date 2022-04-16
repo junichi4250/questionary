@@ -9,27 +9,31 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ReviewRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Repositories\Review\ReviewRepositoryInterface;
-use App\Services\Review\ReviewServiceInterface;
+use App\Services\Age\AgeService;
 
 class ReviewController extends Controller
 {
     private ReviewRepositoryInterface $reviewRepository;
-
     private ReviewServiceInterface $reviewService;
+
+    private AgeService $ageService;
 
     private $formItems = ["shop_id", "name", "gender", "age_id", "email", "is_send_email", "score", "feedback", "photo_url"];
 
     public function __construct(
         ReviewRepositoryInterface $reviewRepository,
         ReviewServiceInterface $reviewService,
+        AgeService $ageService,
     ) {
         $this->reviewRepository = $reviewRepository;
         $this->reviewService = $reviewService;
+        $this->ageService = $ageService;
     }
 
     public function index(int $shop_id) {
-        $ages = Age::all();
+        $ages = $this->ageService->getAges();
         $shop = Shop::where('shop_id', $shop_id)->first();
+        // $shop = Shop::where('shop_id', $shop_id)->first();
         return view('review.index', [
             'ages' => $ages,
             'shop' => $shop,

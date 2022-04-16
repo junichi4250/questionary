@@ -8,13 +8,6 @@ use App\Repositories\Shop\ShopRepositoryInterface;
 
 class ShopRepository implements ShopRepositoryInterface
 {
-    private Shop $shop;
-
-    public function __construct(Shop $shop)
-    {
-        $this->shop = $shop;
-    }
-
     /**
      * {@inheritDoc}
      */
