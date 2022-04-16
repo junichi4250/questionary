@@ -9,6 +9,8 @@ use App\Repositories\Shop\ShopRepository;
 use App\Repositories\Shop\ShopRepositoryInterface;
 use App\Repositories\Age\AgeRepository;
 use App\Repositories\Age\AgeRepositoryInterface;
+use App\Repositories\User\UserRepository;
+use App\Repositories\User\UserRepositoryInterface;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -22,6 +24,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ReviewRepositoryInterface::class, ReviewRepository::class);
         $this->app->bind(ShopRepositoryInterface::class, ShopRepository::class);
         $this->app->bind(AgeRepositoryInterface::class, AgeRepository::class);
+        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
     }
 
     /**

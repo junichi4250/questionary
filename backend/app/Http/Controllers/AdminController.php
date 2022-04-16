@@ -6,22 +6,30 @@ use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Services\Review\ReviewService;
+use App\Services\User\UserService;
 
 class AdminController extends Controller
 {
-    public function index() {
-        $user = Auth::user();
+    private ReviewService $reviewService;
+
+    public function __construct(
+        ReviewService $reviewService,
+        UserService $userService,
+    ) {
+        $this->reviewService = $reviewService;
+        $this->userService = $userService;
+    }
+
+    public function index()
+    {
+        $user = $this->userService->getLoginUser();
+
         // ログインユーザーの権限
         if ($user->role == 1) {
-            $reviews = Review::Join('ages', 'reviews.age_id', '=', 'ages.age_id')
-            ->Join('shops', 'reviews.shop_id', '=', 'shops.shop_id')
-            ->paginate(10);
+            $reviews = $this->reviewService->getAllReviews();
         } else {
-            $reviews = Review::Join('ages', 'reviews.age_id', '=', 'ages.age_id')
-            ->Join('shops', 'reviews.shop_id', '=', 'shops.shop_id')
-            ->LeftJoin('users', 'shops.shop_id', '=', 'users.shop_id')
-            ->where('users.role', '=', $user->role)
-            ->paginate(10);
+            $reviews = $this->reviewService->getReviewsByShop($user->role);
         }
 
         return view('admin.index', [
@@ -30,7 +38,8 @@ class AdminController extends Controller
         ]);
     }
 
-    public function search(Request $request) {
+    public function search(Request $request)
+    {
         // リセットボタンが押されたとき
         if ($request->has("reset")) {
             return redirect()->action([AdminController::class, 'index']);
@@ -58,7 +67,7 @@ class AdminController extends Controller
             ->paginate(10);
         }
 
-        $user = Auth::user();
+        $user = $this->userService->getLoginUser();
         
         return view('admin.index', [
             'reviews' => $reviews,
@@ -67,28 +76,25 @@ class AdminController extends Controller
         ]);
     }
 
-    public function show(int $id) {
-
-        $review = Review::Join('shops', 'reviews.shop_id', '=', 'shops.shop_id')
-        ->where('id', $id)->first();
+    public function show(int $id)
+    {
+        $review = $this->reviewService->getReview($id);
 
         return view('admin.show', [
             'review' => $review,
         ]);
     }
 
-    public function delete(Request $request, int $id) {
+    public function delete(Request $request, int $id)
+    {
         // 一覧に戻るボタンが押されたとき
         if ($request->has("back")) {
             return redirect()->action([AdminController::class, 'index']);
         }
 
-        return DB::transaction(function () use ($id) {
-            $review = Review::where('id', $id)->first();
-            $result = $review->delete();
+        $this->reviewService->delete($id);
 
-            return redirect()->action([AdminController::class, 'index']);
-        });
+        return redirect()->action([AdminController::class, 'index']);
     }
 
 }

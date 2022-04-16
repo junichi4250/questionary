@@ -29,9 +29,9 @@ class ShopService implements ShopServiceInterface
     /**
      * {@inheritDoc}
      */
-    public function getShop(int $shop_id): Shop
+    public function getShop(int $id): Shop
     {
-        $shop = $this->shopRepository->getShop($shop_id);
+        $shop = $this->shopRepository->getShop($id);
 
         return $shop;
     }

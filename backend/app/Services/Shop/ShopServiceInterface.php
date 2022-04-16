@@ -15,5 +15,5 @@ interface ShopServiceInterface
     /**
      * 選択したお店を取得
      */
-    public function getShop(int $shop_id): Shop;
+    public function getShop(int $id): Shop;
 }

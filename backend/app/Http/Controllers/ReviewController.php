@@ -8,32 +8,33 @@ use App\Models\Review;
 use Illuminate\Http\Request;
 use App\Http\Requests\ReviewRequest;
 use Illuminate\Support\Facades\Storage;
-use App\Repositories\Review\ReviewRepositoryInterface;
+use App\Services\Review\ReviewService;
 use App\Services\Age\AgeService;
+use App\Services\Shop\ShopService;
 
 class ReviewController extends Controller
 {
-    private ReviewRepositoryInterface $reviewRepository;
-    private ReviewServiceInterface $reviewService;
-
+    private ReviewService $reviewService;
     private AgeService $ageService;
+    private ShopService $shopService;
 
     private $formItems = ["shop_id", "name", "gender", "age_id", "email", "is_send_email", "score", "feedback", "photo_url"];
 
     public function __construct(
-        ReviewRepositoryInterface $reviewRepository,
-        ReviewServiceInterface $reviewService,
+        ReviewService $reviewService,
         AgeService $ageService,
+        ShopService $shopService,
     ) {
-        $this->reviewRepository = $reviewRepository;
         $this->reviewService = $reviewService;
         $this->ageService = $ageService;
+        $this->shopService = $shopService;
     }
 
-    public function index(int $shop_id) {
+    public function index(int $shop_id)
+    {
         $ages = $this->ageService->getAges();
-        $shop = Shop::where('shop_id', $shop_id)->first();
-        // $shop = Shop::where('shop_id', $shop_id)->first();
+        $shop = $this->shopService->getShop($shop_id);
+
         return view('review.index', [
             'ages' => $ages,
             'shop' => $shop,
@@ -41,7 +42,8 @@ class ReviewController extends Controller
     }
 
     // 確認ボタンを押した時
-    public function post(ReviewRequest $request) {
+    public function post(ReviewRequest $request)
+    {
         $request->merge([
             'is_send_email' => $request->boolean('is_send_email') ? 1 : 0,
         ]);
@@ -63,7 +65,8 @@ class ReviewController extends Controller
         return redirect()->action([ReviewController::class, 'confirm']);
     }
 
-    public function confirm(Request $request) {
+    public function confirm(Request $request)
+    {
         $input = $request->session()->get("form_input");
 
         // sessionが空ならお店一覧を表示
@@ -75,7 +78,8 @@ class ReviewController extends Controller
     }
 
     // レビュー送信
-    public function send(Request $request, Review $review) {
+    public function send(Request $request, Review $review)
+    {
         $input = $request->session()->get("form_input");
         $shop_id = $request->session()->get("form_input.shop_id");
         $file = $request->session()->get("form_input.photo_url");
@@ -105,7 +109,8 @@ class ReviewController extends Controller
     }
 
     // トップページへ戻る
-    public function complete() {
+    public function complete()
+    {
         return view("review.complete");
     }
 }
