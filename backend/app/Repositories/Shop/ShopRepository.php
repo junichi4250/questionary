@@ -21,9 +21,9 @@ class ShopRepository implements ShopRepositoryInterface
     /**
      * {@inheritDoc}
      */
-    public function getShop(int $shop_id): Shop
+    public function getShop(int $id): Shop
     {
-        $shop = Shop::where('shop_id', $shop_id)->first();
+        $shop = Shop::where('shop_id', $id)->first();
 
         return $shop;
     }
