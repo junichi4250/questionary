@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Services\Review\ReviewService;
 use App\Services\User\UserService;
+use App\Consts\Consts;
 
 class AdminController extends Controller
 {
@@ -26,7 +27,7 @@ class AdminController extends Controller
         $user = $this->userService->getLoginUser();
 
         // ログインユーザーの権限
-        if ($user->role == 1) {
+        if ($user->role == Consts::ROOT_USER) {
             $reviews = $this->reviewService->getAllReviews();
         } else {
             $reviews = $this->reviewService->getReviewsByShop($user->role);
