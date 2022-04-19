@@ -68,7 +68,7 @@ class ReviewController extends Controller
         $input = $request->only($this->formItems);
 
         // sessionへ入力情報を保存
-        $request->session()->put("form_input", $input);
+        session("form_input", $input);
 
         return redirect()->action([ReviewController::class, 'confirm']);
     }
