@@ -75,7 +75,7 @@ class ReviewController extends Controller
 
     public function confirm(Request $request)
     {
-        $input = $request->session()->get("form_input");
+        $input = session("form_input");
         $this->checkSessionEmpty($input);
 
         return view("review.confirm", ["input" => $input]);
@@ -84,14 +84,14 @@ class ReviewController extends Controller
     // レビュー送信
     public function send(Request $request, Review $review)
     {
-        $input = $request->session()->get("form_input");
+        $input = session("form_input");
         $this->checkEnableSendReview($input, $request);
 
         // レビュー保存
         $this->reviewService->create($review, $input);
 
         // 写真があれば保存
-        $file = $request->session()->get("form_input.photo_url");
+        $file = session("form_input.photo_url");
         $this->storePhoto($file);
 
         // sessionを空にする
@@ -110,7 +110,7 @@ class ReviewController extends Controller
     {
         $this->checkSessionEmpty($input);
 
-        $shop_id = $request->session()->get("form_input.shop_id");
+        $shop_id = session("form_input.shop_id");
 
         // 戻るボタンが押されたとき
         if ($request->has("back")) {
