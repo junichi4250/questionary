@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Repositories\Review\ReviewRepositoryInterface;
 use App\Services\Review\ReviewServiceInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Storage;
+use App\Consts\Consts;
 
 class ReviewService implements ReviewServiceInterface
 {
@@ -64,7 +66,8 @@ class ReviewService implements ReviewServiceInterface
      */
     public function create(Review $review, array $input): Void
     {
-        $review = $this->reviewRepository->create($review, $input);
+        $review->fill($input);
+        $review->save();
     }
 
     /**
@@ -73,5 +76,29 @@ class ReviewService implements ReviewServiceInterface
     public function delete(int $id): Void
     {
         $review = $this->reviewRepository->delete($id);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function handleTmpUploadImage(string $file, ReviewRequest $request): Void
+    {
+        $fileUrl = Storage::disk('s3')->putFile('/tmp', $file);
+        $url = Storage::disk('s3')->url($fileUrl);
+        $photoUrl = str_replace(Consts::S3_URL, '', $url);
+
+        $request->merge([
+            'photo_url' => $photoUrl,
+        ]);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function handleUploadImage(string $file): Void
+    {
+        if ($file) {
+            Storage::disk('s3')->move('tmp/'.$file, 'uploads/'.$file);
+        }
     }
 }

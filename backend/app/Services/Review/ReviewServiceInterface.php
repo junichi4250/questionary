@@ -4,6 +4,7 @@ namespace App\Services\Review;
 
 use App\Models\Review;
 use Illuminate\Http\Request;
+use App\Http\Requests\ReviewRequest;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface ReviewServiceInterface
@@ -40,4 +41,14 @@ interface ReviewServiceInterface
      * レビューの削除
      */
     public function delete(int $id): Void;
+
+    /**
+     * 画像をS3へ一時保存
+     */
+    public function handleTmpUploadImage(string $file, ReviewRequest $request): Void;
+
+    /**
+     * 画像をS3へ保存
+     */
+    public function handleUploadImage(string $file): Void;
 }

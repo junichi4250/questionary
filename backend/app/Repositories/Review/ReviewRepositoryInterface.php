@@ -40,14 +40,6 @@ interface ReviewRepositoryInterface
     public function searchReviews(Request $input): LengthAwarePaginator;
 
     /**
-     * ユーザーの新規投稿と、投稿のタグをDBに保存
-     *
-     * @param array $input
-     * @return void
-     */
-    public function create(Review $review, array $input): Void;
-
-    /**
      * レビュー情報の削除
      *
      * @param int $id

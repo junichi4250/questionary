@@ -7,11 +7,9 @@ use App\Models\Shop;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use App\Http\Requests\ReviewRequest;
-use Illuminate\Support\Facades\Storage;
 use App\Services\Review\ReviewService;
 use App\Services\Age\AgeService;
 use App\Services\Shop\ShopService;
-use App\Consts\Consts;
 
 class ReviewController extends Controller
 {
@@ -62,7 +60,7 @@ class ReviewController extends Controller
         $file = $request->image;
         // ファイルを一時保存
         if ($file) {
-            $this->storeTmpPhoto($file, $request);
+            $this->reviewService->handleTmpUploadImage($file, $request);
         }
 
         $input = $request->only($this->formItems);
@@ -92,7 +90,7 @@ class ReviewController extends Controller
 
         // 写真があれば保存
         $file = session("form_input.photo_url");
-        $this->storePhoto($file);
+        $this->reviewService->handleUploadImage($file);
 
         // sessionを空にする
         $request->session()->forget("form_input");
@@ -124,24 +122,6 @@ class ReviewController extends Controller
         // sessionが空ならお店一覧を表示
         if (!$input) {
             return redirect()->action([ShopController::class, 'index']);
-        }
-    }
-
-    private function storeTmpPhoto(string $file, ReviewRequest $request)
-    {
-        $fileUrl = Storage::disk('s3')->putFile('/tmp', $file);
-        $url = Storage::disk('s3')->url($fileUrl);
-        $photoUrl = str_replace(Consts::S3_URL, '', $url);
-
-        $request->merge([
-            'photo_url' => $photoUrl,
-        ]);
-    }
-
-    private function storePhoto(string $file)
-    {
-        if ($file) {
-            Storage::disk('s3')->move('tmp/'.$file, 'uploads/'.$file);
         }
     }
 }

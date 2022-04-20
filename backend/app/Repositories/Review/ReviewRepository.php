@@ -36,7 +36,8 @@ class ReviewRepository implements ReviewRepositoryInterface
         $reviews = Review::Join('ages', 'reviews.age_id', '=', 'ages.age_id')
             ->Join('shops', 'reviews.shop_id', '=', 'shops.shop_id')
             ->LeftJoin('users', 'shops.shop_id', '=', 'users.shop_id')
-            ->where('users.role', '=', $user->role)
+            // ->where('users.role', '=', $role)
+            ->where('reviews.shop_id', $role)
             ->paginate(10);
 
         return $reviews;
@@ -70,15 +71,6 @@ class ReviewRepository implements ReviewRepositoryInterface
             ->paginate(10);
 
         return $reviews;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function create(Review $review, array $input): Void
-    {
-        $review->fill($input);
-        $review->save();
     }
 
     /**
