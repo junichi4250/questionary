@@ -21,6 +21,7 @@ Route::get('/complete', [ReviewController::class, 'complete'])->name('review.com
 // 管理者画面
 Route::middleware('auth')->group(function() {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('/search', [AdminController::class, 'search'])->name('admin.index');
     Route::post('/search', [AdminController::class, 'search'])->name('admin.search');
     Route::get('/admin/show/{id}', [AdminController::class, 'show'])->name('admin.show');
     Route::delete('/admin/delete/{id}', [AdminController::class, 'delete'])->name('admin.delete');
