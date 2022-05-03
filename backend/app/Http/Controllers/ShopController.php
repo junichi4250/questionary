@@ -33,11 +33,11 @@ class ShopController extends Controller
     {
         $shop = $this->shopService->getShop($id);
 
-        // $reviews = $this->reviewService->getReviewsByShop($id);
+        $reviews = $this->reviewService->getReviewsByShop($id);
 
         return view('shop.show', [
             'shop' => $shop,
-            'reviews' => $shop->review
+            'reviews' => $reviews
         ]);
     }
 }
