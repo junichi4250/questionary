@@ -97,8 +97,6 @@ class ReviewService implements ReviewServiceInterface
      */
     public function handleUploadImage(string $file): Void
     {
-        if ($file) {
-            Storage::disk('s3')->move('tmp/'.$file, 'uploads/'.$file);
-        }
+        Storage::disk('s3')->move('tmp/'.$file, 'uploads/'.$file);
     }
 }

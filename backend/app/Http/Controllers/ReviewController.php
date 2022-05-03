@@ -66,7 +66,7 @@ class ReviewController extends Controller
         $input = $request->only($this->formItems);
 
         // sessionへ入力情報を保存
-        session("form_input", $input);
+        $request->session()->put("form_input", $input);
 
         return redirect()->action([ReviewController::class, 'confirm']);
     }
@@ -74,7 +74,10 @@ class ReviewController extends Controller
     public function confirm(Request $request)
     {
         $input = session("form_input");
-        $this->checkSessionEmpty($input);
+        // sessionが空ならお店一覧を表示
+        if (!$input) {
+            return redirect()->action([ShopController::class, 'index']);
+        }
 
         return view("review.confirm", ["input" => $input]);
     }
@@ -83,14 +86,26 @@ class ReviewController extends Controller
     public function send(Request $request, Review $review)
     {
         $input = session("form_input");
-        $this->checkEnableSendReview($input, $request);
+        // sessionが空ならお店一覧を表示
+        if (!$input) {
+            return redirect()->action([ShopController::class, 'index']);
+        }
+
+        $shop_id = session("form_input.shop_id");
+        // 戻るボタンが押されたとき
+        if ($request->has("back")) {
+            return redirect()->action([ReviewController::class, 'index'], ['shop_id' => $shop_id])
+                ->withInput($input);
+        }
 
         // レビュー保存
         $this->reviewService->create($review, $input);
 
         // 写真があれば保存
         $file = session("form_input.photo_url");
-        $this->reviewService->handleUploadImage($file);
+        if ($file) {
+            $this->reviewService->handleUploadImage($file);
+        }
 
         // sessionを空にする
         $request->session()->forget("form_input");
@@ -102,26 +117,5 @@ class ReviewController extends Controller
     public function complete()
     {
         return view("review.complete");
-    }
-
-    private function checkEnableSendReview(array $input, Request $request)
-    {
-        $this->checkSessionEmpty($input);
-
-        $shop_id = session("form_input.shop_id");
-
-        // 戻るボタンが押されたとき
-        if ($request->has("back")) {
-            return redirect()->action([ReviewController::class, 'index'], ['shop_id' => $shop_id])
-                ->withInput($input);
-        }
-    }
-
-    private function checkSessionEmpty(array $input)
-    {
-        // sessionが空ならお店一覧を表示
-        if (!$input) {
-            return redirect()->action([ShopController::class, 'index']);
-        }
     }
 }
